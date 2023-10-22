@@ -1,0 +1,17 @@
+
+@mixin text_style($font_size: 25px, $color:white) {
+  color: $color;
+  font-size: $font_size;
+  font-family: 'Gabarito', sans-serif;
+}
+
+@mixin glass_panel() {
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 30px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0px 9px 18px rgba(0, 0, 0, 0.23), inset 0px 0px 4px rgba(255, 255, 255, 0.23);
+}
+
+$white_color: rgb(255, 255, 255);
+$lightblue_color: rgb(206, 240, 255);
+$cyan_color: rgba(22, 77, 78, 0.85);
