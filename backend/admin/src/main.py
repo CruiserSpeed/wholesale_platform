@@ -1,19 +1,22 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
 from settings import DATABASE_URI
-
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
-db = SQLAlchemy(app)
-
-CORS(app)
-
 from database.models import *
 
-with app.app_context():
+def init_db():
     db.create_all()
 
-import handlers.registration
+def create_app():
+    app = Flask(__name__)
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
+    CORS(app)
 
+    db.init_app(app)
+    with app.app_context():
+        init_db()
+
+    return app
+
+
+app = create_app()
+from handlers.registration import *

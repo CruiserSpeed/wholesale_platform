@@ -7,11 +7,14 @@ from database.models import User
 @app.route("/sign_in", methods=['POST'])
 def sign_in():
     data = json.loads(request.data)
-    print(data)
+    print("HERERE")
     
     email = data["email"]
     password = data["password"]
-    user = db.session.execute(db.select(User).filter_by(email=email)).scalar()
+    print("HERERE")
+    user = User.query.filter_by(email=email).first()
+    print(user)
+    print(f"Got: password={user.password}, email={user.email}")
     if user is None or user.password != password:
         return {"success": False}
     return {"success": True}
