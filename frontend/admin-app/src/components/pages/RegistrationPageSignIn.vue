@@ -1,11 +1,11 @@
 <script setup>
-import RegistrationForm from "@/components/registration/RegistrationForm.vue"
+import RegistrationFormSignIn from "@/components/registration/RegistrationFormSignIn.vue"
 </script>
 
 
 <template>
   <div class="container"> 
-    <RegistrationForm />
+    <RegistrationFormSignIn />
   </div>
 </template>
 

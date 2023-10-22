@@ -2,7 +2,7 @@
 <script>
 
 export default {
-    name: "RegistrationForm",
+    name: "RegistrationFormIn",
     data() {
         return {
         }
@@ -10,10 +10,9 @@ export default {
     methods: {
         sign_up_button() {
             this.$router.push({path: "sign_up"});
-            alert("sign up");
         },
         ok_button() {
-            alert("hello");
+            this.$router.push({path: "/"});
         }
     }
 }
@@ -85,7 +84,6 @@ export default {
         padding-top: 50px;
         margin-left: 20px;
         margin-right: 20px;
-        text-align: center;
         height: 100%;
         width: 500px;
     }

@@ -1,5 +1,4 @@
 <script setup>
-import RegistrationPage from "./components/pages/RegistrationPage.vue"
 </script>
 
 <template>
