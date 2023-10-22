@@ -106,12 +106,12 @@ html, body {
     transform: translateY(0px) scale(1);
   }
   to {
-    transform: translateY(15px) scale(1);
+    transform: translateY(20px) scale(1);
   }
 }
 @keyframes swaying_2 {
   from {
-    transform: translateY(10px) scale(0.8);
+    transform: translateY(15px) scale(0.8);
   }
   to {
     transform: translateY(0px) scale(0.8);

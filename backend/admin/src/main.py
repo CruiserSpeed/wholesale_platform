@@ -10,6 +10,10 @@ db = SQLAlchemy(app)
 
 CORS(app)
 
-import database.models
+from database.models import *
+
+with app.app_context():
+    db.create_all()
+
 import handlers.registration
 

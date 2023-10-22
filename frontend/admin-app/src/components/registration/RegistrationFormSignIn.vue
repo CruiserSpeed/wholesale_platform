@@ -5,14 +5,34 @@ export default {
     name: "RegistrationFormIn",
     data() {
         return {
+            input_email: "",
+            input_password: "",
         }
     },
     methods: {
         sign_up_button() {
             this.$router.push({path: "sign_up"});
         },
-        ok_button() {
-            this.$router.push({path: "/"});
+        validate_email() {
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.input_email)) {
+                return true;
+            }
+            return false;
+        },
+        async ok_button() {
+            const url = "http://127.0.0.1:5000/sign_in";
+
+            const data = {email: this.input_email, password: this.input_password};
+            let result = await fetch(url, {
+                method: "POST",
+                body: JSON.stringify(data),
+            });
+            let result_json = await result.json();
+            if (result_json["success"]) {
+                this.$router.push({path: "/"});
+            } else {
+                alert("ERROR");
+            }
         }
     }
 }
@@ -28,12 +48,12 @@ export default {
             <div class="content">
                 <div class="inner_content">
                     <div class="inner_content__text">Email</div>
-                    <input class="inner_content__input" type="email" placeholder="email">
+                    <input class="inner_content__input" type="email" placeholder="email" v-model="input_email">
                     <div class="inner_content__text">Password</div>
-                    <input required class="inner_content__input"  type="password" placeholder="password">
+                    <input required class="inner_content__input"  type="password" placeholder="password" v-model="input_password">
                 </div>
                 <div class="content__item">
-                    Админка для TradeMatch
+                    Админка для <b>TradeMatch</b><br><br>
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur nisi non eos quisquam. Illo, a porro possimus, distinctio quasi dolorum, nesciunt quaerat ratione vero adipisci numquam magni. Labore, quia vel!
                 </div>
             </div>
