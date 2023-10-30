@@ -1,20 +1,16 @@
-from main import app, db
+from src.main import app
 from flask import request
 import json
-from database.models import User
+from src.database.models import db, User
 
 
 @app.route("/sign_in", methods=['POST'])
 def sign_in():
     data = json.loads(request.data)
-    print("HERERE")
     
     email = data["email"]
     password = data["password"]
-    print("HERERE")
     user = User.query.filter_by(email=email).first()
-    print(user)
-    print(f"Got: password={user.password}, email={user.email}")
     if user is None or user.password != password:
         return {"success": False}
     return {"success": True}

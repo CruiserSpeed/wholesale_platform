@@ -1,0 +1,29 @@
+version: "3"
+services:
+  backend_admin_app:
+    build: backend/admin_app/
+    environment:
+      DB_USER: ${ADMIN_DB_USER}
+      DB_HOST: backend_admin_db
+      DB_PORT: ${ADMIN_DB_PORT}
+      DB_PASSWORD: ${ADMIN_DB_PASSWORD}
+      APP_IS_DEBUG: ${ADMIN_APP_IS_DEBUG}
+      APP_PORT: ${ADMIN_APP_INNER_PORT}
+    ports:
+      - ${ADMIN_APP_EXTERNAL_PORT}:${ADMIN_APP_INNER_PORT}
+
+  backend_admin_db:
+    container_name: backend_admin_db
+    build: backend/admin_db
+    environment:
+      POSTGRES_USER: ${ADMIN_DB_USER}
+      POSTGRES_PASSWORD: ${ADMIN_DB_PASSWORD}
+    volumes:
+      - ./backend/admin_db/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - admin_data:/var/lib/postgresql/data
+    ports:
+      - ${ADMIN_DB_PORT}:${ADMIN_DB_PORT}
+    
+volumes:
+  admin_data:
+

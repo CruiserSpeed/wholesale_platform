@@ -1,3 +1,4 @@
-settings.py
 package-lock.json
 __pycache__
+.pytest_cache
+.env
