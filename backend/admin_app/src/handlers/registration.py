@@ -1,7 +1,7 @@
-from src.main import app
+from main import app
 from flask import request
 import json
-from src.database.models import db, User
+from database.models import db, User
 
 
 @app.route("/sign_in", methods=['POST'])

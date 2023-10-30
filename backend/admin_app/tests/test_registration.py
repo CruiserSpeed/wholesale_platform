@@ -1,5 +1,5 @@
 
-from src.database.models import User, db
+from database.models import User, db
 
 def test_ping(client):
     response = client.get("/ping")

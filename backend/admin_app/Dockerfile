@@ -8,6 +8,6 @@ RUN apt-get update && \
     pip3 install -r requirements.txt
 
 WORKDIR /app
-COPY ./src/ .
-
-CMD python3 run.py
+COPY ./src/ ./src/
+COPY ./tests/ ./tests/
+COPY ./pytest.ini .

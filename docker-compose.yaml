@@ -1,6 +1,7 @@
 version: "3"
 services:
   backend_admin_app:
+    container_name: backend_admin_app
     build: backend/admin_app/
     environment:
       DB_USER: ${ADMIN_DB_USER}
@@ -11,6 +12,7 @@ services:
       APP_PORT: ${ADMIN_APP_INNER_PORT}
     ports:
       - ${ADMIN_APP_EXTERNAL_PORT}:${ADMIN_APP_INNER_PORT}
+    command: ${BACKEND_ADMIN_ENTRY_COMMAND}
 
   backend_admin_db:
     container_name: backend_admin_db

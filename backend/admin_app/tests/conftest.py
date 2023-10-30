@@ -1,6 +1,6 @@
 import pytest
 from flask import Flask
-from src.database.models import db
+from database.models import db
 
 @pytest.fixture(autouse=True)
 def mock_application(mocker):
@@ -13,12 +13,12 @@ def mock_application(mocker):
     with app.app_context():
         db.create_all()
 
-    mock = mocker.patch("src.app_setup.create_app")
+    mock = mocker.patch("app_setup.create_app")
     mock.return_value = app
 
 @pytest.fixture()
 def app():
-    from src.main import app
+    from main import app
     return app
 
 @pytest.fixture()
