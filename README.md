@@ -37,6 +37,10 @@ whosale_platform
 `cd whosale_platform && ./run.sh --test`\
 or\
 `cd whosale_platform && ./run.sh -t`
+без стайлчекинга
+`cd whosale_platform && ./run.sh -t -v`
+or\
+`cd whosale_platform && ./run.sh -t --vital`
 
 **NB**: должны быть определены необходимые переменный окружения:
 <details>
@@ -61,7 +65,7 @@ ADMIN_DB_PORT=5432
 `cd admin_app && ./run.sh`
 
 Запуск тестов\
-`cd admin_app && pytest -s`
+`cd admin_app && ./run_tests.sh`
 
 **NB**: должны быть определены необходимые переменный окружения:
 <details>

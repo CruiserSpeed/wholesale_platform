@@ -9,3 +9,5 @@ pytest-sqlalchemy-mock==0.1.5
 requests==2.28.1
 SQLAlchemy==2.0.22
 Werkzeug==3.0.0
+black==22.10.0
+flake8==6.0.0

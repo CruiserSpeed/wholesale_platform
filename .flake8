@@ -1,0 +1,3 @@
+[flake8]
+exclude = .git, __pycache__, __init__.py, .pytest_cache
+ignore = F405, F403, F401, E402
