@@ -1,8 +1,12 @@
 version: "3"
 services:
   backend_admin_app:
+    depends_on: 
+      - backend_admin_db
     container_name: backend_admin_app
-    build: backend/admin_app/
+    build:
+      context: backend
+      dockerfile: admin_app/Dockerfile
     environment:
       DB_USER: ${ADMIN_DB_USER}
       DB_HOST: backend_admin_db
@@ -25,7 +29,16 @@ services:
       - admin_data:/var/lib/postgresql/data
     ports:
       - ${ADMIN_DB_PORT}:${ADMIN_DB_PORT}
-    
+
+  backend_api_walker:
+    container_name: backend_api_walker
+    build:
+      context: backend
+      dockerfile: api_walker/Dockerfile
+    ports:
+      - ${API_WALKER_EXTERNAL_PORT}:${API_WALKER_INNER_PORT}
+    command: ./build/api_walker
+
 volumes:
   admin_data:
 

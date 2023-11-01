@@ -20,13 +20,13 @@ RUN cd grpc && \
 
 WORKDIR /app
 
-COPY ./src/ ./src/
+COPY ./api_walker/src/ ./src/
 COPY ./protos/ ./protos/
 
 RUN protoc -I ./protos --grpc_out=src/server/proto --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` ./protos/api_walker.proto && \
     protoc -I ./protos --cpp_out=src/server/proto ./protos/api_walker.proto
 
-COPY CMakeLists.txt .
+COPY ./api_walker/CMakeLists.txt .
 
 RUN mkdir build && \
     cd build && \
