@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+
+package apiwalker;
+
+service ApiWalker {
+    rpc GetReply(RequestMessage) returns (ReplyMessage) {}
+}
+
+
+message RequestMessage {
+    string message = 1;
+}
+
+message ReplyMessage {
+    string message = 1;
+}
