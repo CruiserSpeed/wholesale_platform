@@ -4,10 +4,12 @@ from globals import (
     DATABASE_URI,
 )
 from database.models import *
+import os
 
 
 def create_app():
     print(f"db uri: {DATABASE_URI}")
+    print(os.listdir("./src/api_walker"))
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
     CORS(app)

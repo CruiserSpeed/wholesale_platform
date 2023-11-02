@@ -3,6 +3,7 @@ services:
   backend_admin_app:
     depends_on: 
       - backend_admin_db
+      - backend_api_walker
     container_name: backend_admin_app
     build:
       context: backend
@@ -14,6 +15,8 @@ services:
       DB_PASSWORD: ${ADMIN_DB_PASSWORD}
       APP_IS_DEBUG: ${ADMIN_APP_IS_DEBUG}
       APP_PORT: ${ADMIN_APP_INNER_PORT}
+      API_WALKER_HOST: backend_api_walker
+      API_WALKER_PORT: ${API_WALKER_EXTERNAL_PORT}
     ports:
       - ${ADMIN_APP_EXTERNAL_PORT}:${ADMIN_APP_INNER_PORT}
     command: ${BACKEND_ADMIN_ENTRY_COMMAND}

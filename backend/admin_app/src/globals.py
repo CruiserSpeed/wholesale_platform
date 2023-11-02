@@ -13,6 +13,9 @@ database_port = get_env_or_default("DB_PORT")
 database_password = get_env_or_default("DB_PASSWORD")
 database_name = "whosale_platform"
 
+API_WALKER_HOST = get_env_or_default("API_WALKER_HOST")
+API_WALKER_PORT = get_env_or_default("API_WALKER_PORT")
+
 IS_TESTING = get_env_or_default("IS_TESTING", False)
 APP_PORT = get_env_or_default("APP_PORT")
 APP_IS_DEBUG = get_env_or_default("APP_IS_DEBUG")

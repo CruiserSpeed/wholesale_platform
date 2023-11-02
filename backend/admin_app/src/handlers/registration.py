@@ -2,6 +2,13 @@ from main import app
 from flask import request
 import json
 from database.models import db, User
+from api_walker.api_walker import send_request_to_api_walker
+
+
+@app.route("/api_walker", methods=["GET"])
+def send_api_walker():
+    print("HERE")
+    return send_request_to_api_walker()
 
 
 @app.route("/sign_in", methods=["POST"])
