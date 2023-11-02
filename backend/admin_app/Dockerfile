@@ -13,6 +13,7 @@ WORKDIR /app
 COPY ./admin_app/src/ ./src/
 COPY ./admin_app/tests/ ./tests/
 COPY ./admin_app/pytest.ini .
+COPY ./admin_app/run_tests.sh .
 COPY ./protos/ ./protos/
 
 RUN python3 -m grpc_tools.protoc -I ./protos --python_out=src/api_walker --pyi_out=src/api_walker --grpc_python_out=src/api_walker ./protos/api_walker.proto

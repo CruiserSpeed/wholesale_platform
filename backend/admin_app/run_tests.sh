@@ -16,7 +16,7 @@ for i in "$@"; do
 done
 
 if [[ ! $VITAL ]]; then
-    flake8 src && echo -e "\033[0;32mFlake8 PASSED\033[0m"
+    flake8 src && echo -e "\033[0;32mFlake8 PASSED\033[0m" || exit 1
 fi;
 
 pytest -s

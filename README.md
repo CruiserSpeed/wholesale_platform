@@ -2,16 +2,21 @@
 ```
 whosale_platform
 |-- backend
+|    |-- protos          // grpc-сервисы
 |    |-- admin_app       // бэкенд админки
+|    |    | Dockerfile
 |    |    |-- src
 |    |    |    | run.py  // entrypoint
 |    |    |-- tests
-|    |    | Dockerfile
 |    |    | build.sh     // сборка контейнера
 |    |    | run.sh       // запуск контенера
 |    |    | .env         // admin-env для запуска без контейнера
 |    |-- admin_db        // контейнер с базой данных для админки
-|    |    | Dockerfile 
+|    |    | Dockerfile
+|    |-- api_walker      // микросервис для оценки товаров/поставщиков
+|    |    | Dockerfile
+|    |    | -- src
+|    |    | -- tests (TODO)
 |    |...                // остальные бэки
 |-- frontend
 |    |-- admin-app       // фронт админки
@@ -33,14 +38,11 @@ whosale_platform
 Запуск\
 `cd whosale_platform && ./run.sh`
 
-Запуск тестов\
-`cd whosale_platform && ./run.sh --test`\
-or\
-`cd whosale_platform && ./run.sh -t`
-без стайлчекинга
-`cd whosale_platform && ./run.sh -t -v`
-or\
-`cd whosale_platform && ./run.sh -t --vital`
+Для запуска тестов нужно при запуске `run.sh` добавить один из флагов:
+* `--test | -t`\
+заупyск всех тестов
+*  `--vital | -v`\
+заупyск тестов без стайлчекинга
 
 **NB**: должны быть определены необходимые переменный окружения:
 <details>
@@ -49,9 +51,11 @@ or\
 ADMIN_APP_EXTERNAL_PORT=5000
 ADMIN_APP_INNER_PORT=5000
 ADMIN_APP_IS_DEBUG=1
-ADMIN_DB_USER=postgres
+ADMIN_DB_USER=???
 ADMIN_DB_PASSWORD=???
 ADMIN_DB_PORT=5432
+API_WALKER_EXTERNAL_PORT=50051
+API_WALKER_INNER_PORT=50051
 </pre>
 </details>
 
@@ -66,8 +70,12 @@ ADMIN_DB_PORT=5432
 
 Запуск тестов\
 `cd admin_app && ./run_tests.sh`
+(добавить `--vital | -v` для запуска без стайлчекинга)
 
-**NB**: должны быть определены необходимые переменный окружения:
+**NB**:
+нужно установить необходимые библиотеки\
+`cd admin_app && pip install -r requirements.txt`\
+а также должны быть определены необходимые переменный окружения:
 <details>
 <summary>Шаблон для admin-env</summary>
 <pre>
@@ -79,6 +87,18 @@ APP_PORT=5000
 APP_IS_DEBUG=1
 </pre>
 </details>
+
+<br>
+
+## Локальный запуск api_walker
+Сборка\
+`cd api_walker/build && cmake .. && cmake --build .`
+
+Запуск\
+`cd api_walker/build && ./api_walker`
+
+Запуск тестов\
+**(TODO)**
 
 <br>
 
@@ -116,9 +136,8 @@ private:
 <br>
 
 ## Python
-PEP8 -_-
+`PEP8` -_-
+**(TODO)** добавить автоматический `black`
 
 <br>
 
-
-Тестирование
