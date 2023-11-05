@@ -5,7 +5,9 @@ import RegistrationFormSignIn from "@/components/registration/RegistrationFormSi
 
 <template>
   <div class="container"> 
+    <trnasition name="fade" mode="out-in">
     <RegistrationFormSignIn />
+    </trnasition>
   </div>
 </template>
 
@@ -19,4 +21,17 @@ import RegistrationFormSignIn from "@/components/registration/RegistrationFormSi
     height: 100vh;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+
+}
+
 </style>
+

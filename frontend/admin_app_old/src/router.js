@@ -7,7 +7,8 @@ export default createRouter({
     history: createWebHashHistory(),
     routes: [
         { path: "/", component: HomePage },
-        { path: "/sign_in", component: RegistrationPageSignIn },
+        { path: "/sign_in", component: RegistrationPageSignIn,
+            meta: { transition: 'fade' }},
         { path: "/sign_up", component: RegistrationPageSignUp }
     ]
 })

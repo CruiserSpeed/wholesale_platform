@@ -12,13 +12,20 @@
         <div class="ball"></div>
         <div class="ball"></div>
         <div class="ball"></div>
-        <router-view class="full_height"></router-view>
+        <div class="ball"></div>
+        <div class="statue"></div>
+        <div class="frame_1"></div>
+        <div class="content_1">
+          <router-view class="full_height"></router-view>
+        </div>
       </div>
   </body>
 
 </template>
 
 <style lang="scss">
+@import "@/scss/_globals.scss";
+
 * {
   padding: 0;
   margin: 0;
@@ -103,10 +110,10 @@ html, body {
 
 @keyframes swaying_1 {
   from {
-    transform: translateY(0px) scale(1);
+    transform: translateY(0px) scale(1.3);
   }
   to {
-    transform: translateY(20px) scale(1);
+    transform: translateY(20px) scale(1.3);
   }
 }
 @keyframes swaying_2 {
@@ -119,37 +126,83 @@ html, body {
 }
 
 
+.content_1 {
+  position: absolute;
+  z-index: 4;
+  left: 45%;
+}
 .ball {
   position: absolute;
   border-radius: 1000px;
-  background: linear-gradient(400deg, #386376 15.43%, #5DA37E 83.66%);
-  height: 250px;
-  width: 250px;
+  background: linear-gradient(400deg, $background_4_color 15.43%, $background_1_color 83.66%);
+  height: 150px;
+  width: 150px;
+  z-index: 3;
 }
 .ball:nth-child(1) {
-  top: 50%;
-  left: 60%;
+  top: 10%;
+  left: 75%;
   animation: 3s ease-in-out 1s infinite alternate swaying_1;
+  filter:blur(3px);
 }
 .ball:nth-child(2) {
-  top: 15%;
-  left: 15%;
-  filter:blur(3px);
+  top: 50%;
+  left: 18%;
+  filter:blur(2px);
   animation: 3s ease-in-out 1s infinite alternate swaying_2;
 }
 .ball:nth-child(3) {
   top: 10%;
-  left: 80%;
-  transform: scale(0.4);
-  filter:blur(7px);
+  left: 10%;
+  z-index: 0;
+  transform: scale(1.6);
+  filter:blur(4px);
+}
+.ball:nth-child(4) {
+  top: 85%;
+  left: 50%;
+  z-index: 0;
+  transform: scale(4);
+  filter:blur(3px);
+}
+
+.frame_1 {
+  position: absolute;
+  top:55px;
+  left:40px;
+  height: 620px;
+  width: 300px;
+  filter: blur(2px);
+  z-index: 1;
+  border-style: solid;
+  border-color: gray;
+  border-color: $background_1_color;
+  border-width: 6px;
+  margin-left: 5%;
+  box-shadow: -6px 6px 0px $background_4_color;
+}
+
+.statue {
+  position: absolute;
+  z-index: 2;
+  height: 100%;
+  width: 50%;
+  margin-left: 5%;
+  background-image: url("./images/statue.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .main_background {
-  background: linear-gradient(219.58deg, #4079AD 0.96%, #448199 24.18%, #498C80 82.85%, #4E9767 100%);
+  position: relative;
+  // background: linear-gradient(219.58deg, #4079AD 0.96%, #448199 24.18%, #498C80 82.85%, #4E9767 100%);
+  background: linear-gradient(219.58deg, $background_1_color 0.96%, $background_2_color 24.18%, $background_3_color 82.85%, $background_4_color 100%);
+  // background-image: url("./images/statue.png");
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 }
 
 </style>
