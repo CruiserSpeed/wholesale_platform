@@ -8,9 +8,7 @@
 <style lang="scss">
 @import "@/scss/_globals.scss";
 .container {
-    height: 100px;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     @include text_style(50px);
 }
 </style>

@@ -42,12 +42,12 @@ services:
       - ${API_WALKER_EXTERNAL_PORT}:${API_WALKER_INNER_PORT}
     command: ./build/api_walker
 
-  front_admin_app:
-    container_name: front_admin_app
-    build: frontend/admin_app
-    ports:
-      - ${ADMIN_FRONT_EXTERNAL_PORT}:${ADMIN_FRONT_INTERNAL_PORT}
-    command: npm run dev
+  # front_admin_app:
+  #   container_name: front_admin_app
+  #   build: frontend/admin_app
+  #   ports:
+  #     - ${ADMIN_FRONT_EXTERNAL_PORT}:${ADMIN_FRONT_INTERNAL_PORT}
+  #   command: npm run dev
 
 volumes:
   admin_data:

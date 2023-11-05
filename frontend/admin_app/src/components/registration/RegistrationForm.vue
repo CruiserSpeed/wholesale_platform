@@ -1,41 +1,44 @@
 
-<script>
+<script setup>
 
-export default {
-    name: "RegistrationFormIn",
-    data() {
-        return {
-            input_email: "",
-            input_password: "",
-        }
-    },
-    methods: {
-        sign_up_button() {
-            this.$router.push({path: "sign_up"});
-        },
-        validate_email() {
-            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.input_email)) {
-                return true;
-            }
-            return false;
-        },
-        async ok_button() {
-            const url = "http://127.0.0.1:5000/sign_in";
+import axios from 'axios';
+import { ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
-            const data = {email: this.input_email, password: this.input_password};
-            let result = await fetch(url, {
-                method: "POST",
-                body: JSON.stringify(data),
-            });
-            let result_json = await result.json();
-            if (result_json["success"]) {
-                this.$router.push({path: "/"});
-            } else {
-                alert("ERROR");
-            }
-        }
+const router = useRouter();
+let input_email = ref('');
+let input_password = ref('');
+
+const props = defineProps({
+    sign_in: Boolean
+});
+
+function validate_email() {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input_email)
+}
+
+function toggle_button() {
+
+    console.log(props.sign_in);
+
+    if (props.sign_in) {
+        router.push({path: "sign_up"});
+    } else {
+        router.push({path: "sign_in"});
     }
 }
+
+function ok_button() {
+    const url = "http://127.0.0.1:5000/ping";
+
+    const data = {email: this.input_email, password: this.input_password};
+    axios.get(url).then(
+        (response) => {
+            alert(response.data);
+        }
+    )
+}
+
 </script>
 
 <template>
@@ -43,14 +46,24 @@ export default {
     <div class="root">
         <div class="container">
             <div class="header">
-                <div class="header__item">Sign in</div>
+                <div class="header__item">{{ props.sign_in ? "Sign in" : "Sign up" }}</div>
             </div>
             <div class="content">
                 <div class="inner_content">
-                    <div class="inner_content__text">Email</div>
-                    <input class="inner_content__input" type="email" placeholder="email" v-model="input_email">
-                    <div class="inner_content__text">Password</div>
-                    <input required class="inner_content__input"  type="password" placeholder="password" v-model="input_password">
+                    <div class="input_with_lable">
+                        <div class="input_with_lable__lable">Email</div>
+                        <input class="input_with_lable__input" type="email" placeholder="email" v-model="input_email">
+                    </div>
+
+                    <div class="input_with_lable">
+                        <div class="input_with_lable__lable">Password</div>
+                        <input required class="input_with_lable__input"  type="password" placeholder="password" v-model="input_password">
+                    </div>
+
+                    <div v-if="!props.sign_in" class="input_with_lable">
+                        <div class="input_with_lable__lable">Confirmation</div>
+                        <input required class="input_with_lable__input"  type="password" placeholder="password" v-model="input_confirmation">
+                    </div>
                 </div>
                 <div class="content__item">
                     Админка для <b>TradeMatch</b><br><br>
@@ -58,7 +71,7 @@ export default {
                 </div>
             </div>
             <div class="bottom">
-                <div @click="sign_up_button()" class="bottom__item_left">Sign up</div>
+                <div @click="toggle_button()" class="bottom__item_left">{{ props.sign_in ? "sign up" : "sign in" }}</div>
                 <div @click="ok_button()" class="bottom__item_right">OK</div>
             </div>
         </div>
@@ -68,14 +81,17 @@ export default {
 <style scoped lang="scss">
 @import "@/scss/_globals.scss";
 
+.root {
+}
 .container {
-    width: 700px;
     height: 500px;
+    min-width: 400px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 
 .header {
     @include glass_panel();
@@ -111,19 +127,21 @@ export default {
 .inner_content {
     display: flex;
     align-items: start;
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: column;
     height: 100%;
     width: 100%;
     padding-left: 30px;
     padding-right: 30px;
+}
 
-    &__text {
+.input_with_lable {
+    width: 100%;
+
+    &__lable {
         @include text_style(25px);
     }
     &__input {
-        margin-top: 10px;
-        margin-bottom: 40px;
         @include text_style(15px);
         padding: 10px;
         border-radius: 6px;
@@ -177,5 +195,11 @@ export default {
     }
 }
 
+@media (max-width: 800px) {
+    .content__item {
+        display: none;
+    }
 
-</style> //
+}
+
+</style>
