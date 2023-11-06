@@ -10,7 +10,7 @@ import os
 def create_app():
     print(f"db uri: {DATABASE_URI}")
     print(os.listdir("./src/api_walker"))
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="assets")
     app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
     CORS(app)
 

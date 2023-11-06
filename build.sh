@@ -1,1 +1,3 @@
+docker images -a | grep none | awk '{ print $3; }' | xargs docker rmi
 docker-compose build
+

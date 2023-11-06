@@ -6,7 +6,7 @@
 </template>
 
 <style lang="scss">
-@import "@/scss/_globals.scss";
+@import "@/scss/globals.scss";
 .container {
     text-align: center;
     @include text_style(50px);

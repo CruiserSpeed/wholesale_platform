@@ -3,24 +3,31 @@
 
 import axios from 'axios';
 import { ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { useGlobalsStore } from '@/stores/GlobalsStore.js';
 
 const router = useRouter();
+const globals_store = useGlobalsStore();
 let input_email = ref('');
 let input_password = ref('');
+let input_confirmation = ref('');
 
 const props = defineProps({
     sign_in: Boolean
 });
 
-function validate_email() {
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input_email)
+function validate_email(email) {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
 }
 
-function toggle_button() {
+function validate_password(password) {
+    if (password.length < 5) {
+        return false;
+    }
+    return true;
+}
 
-    console.log(props.sign_in);
-
+function sign_button() {
     if (props.sign_in) {
         router.push({path: "sign_up"});
     } else {
@@ -28,15 +35,69 @@ function toggle_button() {
     }
 }
 
-function ok_button() {
-    const url = "http://127.0.0.1:5000/ping";
 
-    const data = {email: this.input_email, password: this.input_password};
-    axios.get(url).then(
-        (response) => {
-            alert(response.data);
+function ok_button() {
+    const url = props.sign_in ? globals_store.registration_sign_in_url : globals_store.registration_sign_up_url;
+    const email = input_email.value;
+    const password = input_password.value;
+    const confirmation = input_confirmation.value;
+
+    if (email.length === 0 || password.length === 0) {
+        alert("Поля не долдны быть пустыми");
+        return;
+    }
+
+    if (!validate_email(email)) {
+        alert(`Проверьте корректность email ${email}`);
+        return;
+    }
+    if (!props.sign_in) {
+        if (!validate_password(password)) {
+            alert("Ненадежный пароль");
+            return;
         }
-    )
+
+        if (password !== confirmation) {
+            alert("Пароли не совпадают");
+            return;
+        }
+    }
+
+    const data = {email: email, password: password};
+    if (props.sign_in) {
+        axios.post(url, data).then(
+            (response) => {
+                const result = response.data[globals_store.JF_RESULT];
+                if (result === globals_store.JV_SUCCESS) {
+                    router.push({path: "homepage"});
+                } else if (result === globals_store.JV_INVALID_CREDENTIALS) {
+                    alert("Данные не верны");
+                } else if (result === globals_store.JV_ADMIN_NOT_CONFIRMED) {
+                    alert("Дождитесь, пока вашу заявку подтвердят");
+                } else if (result === globals_store.JV_ADMIN_REFUSED) {
+                    alert("Вашу заявку отклонили");
+                } else if (result === globals_store.JV_EMAIL_NOT_CONFIRMED) {
+                    alert("Подтвердите вашу почту");
+                } else {
+                    alert("Что-то пошло не так");
+                }
+            }
+        )
+    } else {
+        axios.post(url, data).then(
+            (response) => {
+                const result = response.data[globals_store.JF_RESULT];
+                if (result === globals_store.JV_SUCCESS) {
+                    alert("Ваша заявка рассматривается");
+                } else if (result === globals_store.JV_ALREADY_EXISTS) {
+                    alert("Вы уже отправили заявку");
+                } else {
+                    alert("Что-то пошло не так");
+                }
+            }
+        )
+
+    }
 }
 
 </script>
@@ -65,13 +126,16 @@ function ok_button() {
                         <input required class="input_with_lable__input"  type="password" placeholder="password" v-model="input_confirmation">
                     </div>
                 </div>
-                <div class="content__item">
-                    Админка для <b>TradeMatch</b><br><br>
+                <div v-if="props.sign_in" class="content__item">
+                    Админка для TradeMatch<br><br>
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur nisi non eos quisquam. Illo, a porro possimus, distinctio quasi dolorum, nesciunt quaerat ratione vero adipisci numquam magni. Labore, quia vel!
+                </div>
+                <div v-else class="content__item">
+                    Введите свои данные и дождитесь, пока вашу заявку подтвердят. Уведомление придет на указанную почту
                 </div>
             </div>
             <div class="bottom">
-                <div @click="toggle_button()" class="bottom__item_left">{{ props.sign_in ? "sign up" : "sign in" }}</div>
+                <div @click="sign_button()" class="bottom__item_left">{{ props.sign_in ? "sign up" : "sign in" }}</div>
                 <div @click="ok_button()" class="bottom__item_right">OK</div>
             </div>
         </div>
@@ -79,7 +143,7 @@ function ok_button() {
 </template>
 
 <style scoped lang="scss">
-@import "@/scss/_globals.scss";
+@import "@/scss/globals.scss";
 
 .root {
 }
@@ -114,6 +178,8 @@ function ok_button() {
     @include glass_panel();
     border-radius: 0px 0px 0px 0px;
     margin-top: 8px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 
     &__item {
         @include text_style(20px);
@@ -140,6 +206,7 @@ function ok_button() {
 
     &__lable {
         @include text_style(25px);
+        text-align: left;
     }
     &__input {
         @include text_style(15px);
@@ -199,7 +266,6 @@ function ok_button() {
     .content__item {
         display: none;
     }
-
 }
 
 </style>

@@ -25,7 +25,7 @@
 
 
 <style scoped lang="scss">
-@import "@/scss/_globals.scss";
+@import "@/scss/globals.scss";
 
 // background
 .main_background {

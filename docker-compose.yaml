@@ -3,7 +3,7 @@ services:
   backend_admin_app:
     depends_on: 
       - backend_admin_db
-      - backend_api_walker
+      # - backend_api_walker
     container_name: backend_admin_app
     build:
       context: backend
@@ -17,6 +17,8 @@ services:
       APP_PORT: ${ADMIN_APP_INNER_PORT}
       API_WALKER_HOST: backend_api_walker
       API_WALKER_PORT: ${API_WALKER_EXTERNAL_PORT}
+      EMAIL_LOGIN: ${ADMIN_EMAIL_LOGIN}
+      EMAIL_PASSWORD: ${ADMIN_EMAIL_PASSWORD}
     ports:
       - ${ADMIN_APP_EXTERNAL_PORT}:${ADMIN_APP_INNER_PORT}
     command: ${BACKEND_ADMIN_ENTRY_COMMAND}
@@ -33,14 +35,14 @@ services:
     ports:
       - ${ADMIN_DB_PORT}:${ADMIN_DB_PORT}
 
-  backend_api_walker:
-    container_name: backend_api_walker
-    build:
-      context: backend
-      dockerfile: api_walker/Dockerfile
-    ports:
-      - ${API_WALKER_EXTERNAL_PORT}:${API_WALKER_INNER_PORT}
-    command: ./build/api_walker
+  # backend_api_walker:
+  #   container_name: backend_api_walker
+  #   build:
+  #     context: backend
+  #     dockerfile: api_walker/Dockerfile
+  #   ports:
+  #     - ${API_WALKER_EXTERNAL_PORT}:${API_WALKER_INNER_PORT}
+  #   command: ./build/api_walker
 
   # front_admin_app:
   #   container_name: front_admin_app

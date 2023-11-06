@@ -20,7 +20,7 @@ const props = defineProps({
 
 
 <style scoped lang="scss">
-@import "@/scss/_globals.scss";
+@import "@/scss/globals.scss";
 .root {
   height: 100%;
   width: 100%;
