@@ -16,6 +16,7 @@ from managers.common_manager import common_manager
 from managers.mailing_manager import mailing_manager
 import sys
 from string_constants import *
+from globals import EMAIL_LOGIN
 
 @app.route("/api_walker", methods=["GET"])
 def send_api_walker():
@@ -62,7 +63,7 @@ def sign_in():
     if admin.admin_confirmation_status in [None, ST_REFUSED]:
         return create_result(JV_ADMIN_REFUSED)
     
-    if admin.admin_confirmation_statue != ST_APPROVED:
+    if admin.admin_confirmation_status != ST_APPROVED:
         return create_result(JV_ERROR)
 
     if not common_manager.check_hash(password, admin.password):
@@ -132,7 +133,7 @@ def email_confirm(hash):
     db.session.commit()
     for conf in admin.confirmations:
         db.session.delete(conf)
-        db.session.commit()
+    db.session.commit()
 
     approve_hash = common_manager.gen_hash()
     admin_approve = Confirmation()
@@ -151,7 +152,7 @@ def email_confirm(hash):
     db.session.commit()
 
     email = mailing_manager.create_admin_confirmation(admin.email, approve_hash=approve_hash, refuse_hash=refuse_hash)
-    if not mailing_manager.send_email([EMAIL_], email):
+    if not mailing_manager.send_email([EMAIL_LOGIN], email):
         return create_reply(JV_ERROR)
     return render_template("confirmation_page.html", msg="Confirmed!")
 
@@ -165,18 +166,19 @@ def admin_confirm(hash):
         return render_template("confirmation_page.html", msg="Something went wrong")
 
     admin = conf.admin
+
     if conf.value == ST_APPROVED:
         is_confirmed = True
-        admin.admin_confirmation_state = ST_APPROVED
+        admin.admin_confirmation_status = ST_APPROVED
     elif conf.value == ST_REFUSED:
         is_confirmed = False
-        admin.admin_confirmation_state = ST_REFUSED
+        admin.admin_confirmation_status = ST_REFUSED
     else:
         return render_template("confirmation_page.html", msg="Something went wrong")
 
     for conf in admin.confirmations:
         db.session.delete(conf)
-        db.session.commit()
+    db.session.commit()
 
     email = mailing_manager.create_confirmation_notification(admin.email, is_confirmed=is_confirmed)
     if not mailing_manager.send_email([admin.email], email):

@@ -103,9 +103,8 @@ function ok_button() {
 </script>
 
 <template>
-
-    <div class="root">
-        <div class="container">
+    <form class="root">
+        <fieldset class="container">
             <div class="header">
                 <div class="header__item">{{ props.sign_in ? "Sign in" : "Sign up" }}</div>
             </div>
@@ -113,12 +112,12 @@ function ok_button() {
                 <div class="inner_content">
                     <div class="input_with_lable">
                         <div class="input_with_lable__lable">Email</div>
-                        <input class="input_with_lable__input" type="email" placeholder="email" v-model="input_email">
+                        <input required class="input_with_lable__input" type="email" placeholder="email" autocomplete="email" v-model="input_email">
                     </div>
 
                     <div class="input_with_lable">
                         <div class="input_with_lable__lable">Password</div>
-                        <input required class="input_with_lable__input"  type="password" placeholder="password" v-model="input_password">
+                        <input required class="input_with_lable__input"  type="password" placeholder="password" autocomplete="password" v-model="input_password">
                     </div>
 
                     <div v-if="!props.sign_in" class="input_with_lable">
@@ -135,11 +134,11 @@ function ok_button() {
                 </div>
             </div>
             <div class="bottom">
-                <div @click="sign_button()" class="bottom__item_left">{{ props.sign_in ? "sign up" : "sign in" }}</div>
-                <div @click="ok_button()" class="bottom__item_right">OK</div>
+                <button @click="sign_button()" class="bottom__item_left" type=submit>{{ props.sign_in ? "sign up" : "sign in" }}</button>
+                <button @click="ok_button()" class="bottom__item_right">OK</button>
             </div>
-        </div>
-    </div>
+        </fieldset>
+    </form>
 </template>
 
 <style scoped lang="scss">

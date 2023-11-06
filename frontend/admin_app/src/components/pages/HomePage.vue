@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <div class="container">Welcome!</div>
+    <placeholder class="container">Welcome!</placeholder>
 </template>
 
 <style lang="scss">
