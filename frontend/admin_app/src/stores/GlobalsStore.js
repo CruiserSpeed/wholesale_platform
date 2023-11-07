@@ -16,6 +16,7 @@ export const useGlobalsStore = defineStore('globalsStore', {
       JF_PASSWORD: "password",
       registration_sign_in_url: "http://127.0.0.1:5000/registration/sign_in",
       registration_sign_up_url: "http://127.0.0.1:5000/registration/sign_up",
+
     }
   },
 })

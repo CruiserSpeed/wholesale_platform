@@ -5,9 +5,11 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useGlobalsStore } from '@/stores/GlobalsStore.js';
+import { useUserInfoStore } from '@/stores/UserInfoStore.js';
 
 const router = useRouter();
 const globals_store = useGlobalsStore();
+const user_info_store = useUserInfoStore();
 let input_email = ref('');
 let input_password = ref('');
 let input_confirmation = ref('');
@@ -35,6 +37,9 @@ function sign_button() {
     }
 }
 
+function auntificate() {
+    user_info_store.is_auntificated = true;
+}
 
 function ok_button() {
     const url = props.sign_in ? globals_store.registration_sign_in_url : globals_store.registration_sign_up_url;
@@ -69,7 +74,8 @@ function ok_button() {
             (response) => {
                 const result = response.data[globals_store.JF_RESULT];
                 if (result === globals_store.JV_SUCCESS) {
-                    router.push({path: "homepage"});
+                    auntificate();
+                    router.push({path: "home"});
                 } else if (result === globals_store.JV_INVALID_CREDENTIALS) {
                     alert("Данные не верны");
                 } else if (result === globals_store.JV_ADMIN_NOT_CONFIRMED) {
@@ -103,49 +109,45 @@ function ok_button() {
 </script>
 
 <template>
-    <form class="root">
-        <fieldset class="container">
-            <div class="header">
-                <div class="header__item">{{ props.sign_in ? "Sign in" : "Sign up" }}</div>
-            </div>
-            <div class="content">
-                <div class="inner_content">
-                    <div class="input_with_lable">
-                        <div class="input_with_lable__lable">Email</div>
-                        <input required class="input_with_lable__input" type="email" placeholder="email" autocomplete="email" v-model="input_email">
-                    </div>
+    <div class="container">
+        <div class="header">
+            <div class="header__item">{{ props.sign_in ? "Sign in" : "Sign up" }}</div>
+        </div>
+        <div class="content">
+            <div class="inner_content">
+                <div class="input_with_lable">
+                    <div class="input_with_lable__lable">Email</div>
+                    <input required class="input_with_lable__input" type="email" placeholder="email" autocomplete="email" v-model="input_email">
+                </div>
 
-                    <div class="input_with_lable">
-                        <div class="input_with_lable__lable">Password</div>
-                        <input required class="input_with_lable__input"  type="password" placeholder="password" autocomplete="password" v-model="input_password">
-                    </div>
+                <div class="input_with_lable">
+                    <div class="input_with_lable__lable">Password</div>
+                    <input required class="input_with_lable__input"  type="password" placeholder="password" autocomplete="password" v-model="input_password">
+                </div>
 
-                    <div v-if="!props.sign_in" class="input_with_lable">
-                        <div class="input_with_lable__lable">Confirmation</div>
-                        <input required class="input_with_lable__input"  type="password" placeholder="password" v-model="input_confirmation">
-                    </div>
-                </div>
-                <div v-if="props.sign_in" class="content__item">
-                    Админка для TradeMatch<br><br>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur nisi non eos quisquam. Illo, a porro possimus, distinctio quasi dolorum, nesciunt quaerat ratione vero adipisci numquam magni. Labore, quia vel!
-                </div>
-                <div v-else class="content__item">
-                    Введите свои данные и дождитесь, пока вашу заявку подтвердят. Уведомление придет на указанную почту
+                <div v-if="!props.sign_in" class="input_with_lable">
+                    <div class="input_with_lable__lable">Confirmation</div>
+                    <input required class="input_with_lable__input"  type="password" placeholder="password" v-model="input_confirmation">
                 </div>
             </div>
-            <div class="bottom">
-                <button @click="sign_button()" class="bottom__item_left" type=submit>{{ props.sign_in ? "sign up" : "sign in" }}</button>
-                <button @click="ok_button()" class="bottom__item_right">OK</button>
+            <div v-if="props.sign_in" class="content__item">
+                Админка для TradeMatch<br><br>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur nisi non eos quisquam. Illo, a porro possimus, distinctio quasi dolorum, nesciunt quaerat ratione vero adipisci numquam magni. Labore, quia vel!
             </div>
-        </fieldset>
-    </form>
+            <div v-else class="content__item">
+                Введите свои данные и дождитесь, пока вашу заявку подтвердят. Уведомление придет на указанную почту
+            </div>
+        </div>
+        <div class="bottom">
+            <button @click="sign_button()" class="bottom__item_left" type=submit>{{ props.sign_in ? "sign up" : "sign in" }}</button>
+            <button @click="ok_button()" class="bottom__item_right">OK</button>
+        </div>
+    </div>
 </template>
 
 <style scoped lang="scss">
 @import "@/scss/globals.scss";
 
-.root {
-}
 .container {
     height: 500px;
     min-width: 400px;

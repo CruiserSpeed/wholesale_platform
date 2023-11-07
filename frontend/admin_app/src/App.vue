@@ -1,4 +1,7 @@
 <script setup>
+import { useUserInfoStore } from '@/stores/UserInfoStore.js';
+
+const user_info_store = useUserInfoStore();
 </script>
 
 <template>
@@ -10,8 +13,8 @@
   <body>
       <div class="main_background">
         <div v-for="_ in 4" class="ball"></div>
-        <div class="statue"></div>
-        <div class="frame"></div>
+        <div v-if="!user_info_store.is_auntificated" class="statue"></div>
+        <div v-if="!user_info_store.is_auntificated" class="frame"></div>
       </div>
       <div class="container">
         <router-view></router-view>
@@ -20,6 +23,9 @@
 
 </template>
 
+<style lang="scss">
+@import "@/scss/globals.scss";
+</style>
 
 <style scoped lang="scss">
 @import "@/scss/globals.scss";
@@ -75,7 +81,7 @@
   filter: blur(4px);
 }
 .ball:nth-child(4) {
-  bottom: 15%;
+  top: 90%;
   left: 50%;
   z-index: 1;
   scale: 4;
@@ -108,18 +114,12 @@
 .container {
   position: absolute;
   overflow: hidden;
-  width: 60%;
-  left: 40%;
+  width: 100vw;
   height: 100vh;
   z-index: 4;
   @include debug();
 }
 @media (max-width: 1200px) {
-  .container {
-    width: 100%;
-    left:0%;
-  }
-
   .statue {
     display: none;
   }

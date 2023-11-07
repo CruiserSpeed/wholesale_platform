@@ -1,0 +1,4 @@
+
+
+
+open("tmp.txt", "r")
